@@ -7,11 +7,10 @@ for i in $( ls | grep -e "Dockerfile_*" );
     do
 	# get name of current app-server (needed for tagging the Image)
 	APP_SERVER=${i#*_}
-	echo Building Dockerfile for: $APP_SERVER
-	# just for testing, $BUILD_NUMBER=1. The BUILD_NUMBER environment variabbl will be set by Jenkins during the job later on
-	# BUILD_NUMBER=1
+	echo "\nBuilding Dockerfile for: $APP_SERVER"
 
-	#echo $i
+	# copy the app-server specific Dockerfile (e.g. Dockerfile_jboss) to Dockerfile.
+	# necessary, because Docker can only build images from files exactly called "Dockerfile"
         cp $i Dockerfile
 	
         # build Docker-image
@@ -20,8 +19,6 @@ for i in $( ls | grep -e "Dockerfile_*" );
 	# start Docker-container for current image
 	echo Executing Command: docker run -d -P --name ticket-monster_$APP_SERVER\_v$BUILD_NUMBER sbe/ticket-monster_$APP_SERVER:v$BUILD_NUMBER
 	docker run -d -P --name ticket-monster_$APP_SERVER\_v$BUILD_NUMBER sbe/ticket-monster_$APP_SERVER:v$BUILD_NUMBER
-	# newline just for testing
-	echo -e ""
 done
 
 # cleanup the created Dockerfile
