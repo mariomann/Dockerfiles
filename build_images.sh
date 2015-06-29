@@ -7,7 +7,7 @@ for i in $( ls | grep -e "Dockerfile_*" );
     do
 	# get name of current app-server (needed for tagging the Image)
 	APP_SERVER=${i#*_}
-	echo "\nBuilding Dockerfile for: $APP_SERVER"
+	echo -e "\nBuilding Dockerfile for: $APP_SERVER"
 
 	# copy the app-server specific Dockerfile (e.g. Dockerfile_jboss) to Dockerfile.
 	# necessary, because Docker can only build images from files exactly called "Dockerfile"
