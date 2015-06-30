@@ -1,0 +1,4 @@
+cmr:
+  image: inspectit/cmr
+  ports:
+   - "8182:8182"
