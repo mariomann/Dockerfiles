@@ -40,7 +40,7 @@ for i in $( ls | grep -e "Dockerfile_*" );
            - \"$HOST_HTTP_PORT:8080\"
           environment:
            - AGENT_NAME=$APP_SERVER
-        EOF
+	EOF
 
         echo "$COMPOSE_ENTRY" >> compose/docker-compose.yml
 
