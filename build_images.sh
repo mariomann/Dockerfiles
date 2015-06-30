@@ -33,13 +33,13 @@ for i in $( ls | grep -e "Dockerfile_*" );
 	# appending an entry in the docker-compose.yml file for the current image
         read -d '' COMPOSE_ENTRY <<- EOF
         $APP_SERVER:
-          image: sbe/ticket-monster_$APP_SERVER:v$BUILD_NUMBER
-          links:
-           - cmr
-          ports:
-           - \"$HOST_HTTP_PORT:8080\"
-          environment:
-           - AGENT_NAME=$APP_SERVER
+	  image: sbe/ticket-monster_$APP_SERVER:v$BUILD_NUMBER
+	  links:
+	   - cmr
+	  ports:
+	   - \"$HOST_HTTP_PORT:8080\"
+	  environment:
+	   - AGENT_NAME=$APP_SERVER
 	EOF
 
         echo "$COMPOSE_ENTRY" >> compose/docker-compose.yml
