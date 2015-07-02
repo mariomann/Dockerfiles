@@ -30,6 +30,7 @@ for i in $( ls | grep -e "Dockerfile_*" );
 	#echo Executing Command: docker run -d -P --name ticket-monster_$APP_SERVER\_v$BUILD_NUMBER sbe/ticket-monster_$APP_SERVER:v$BUILD_NUMBER
 	#docker run -d -P --name ticket-monster_$APP_SERVER\_v$BUILD_NUMBER sbe/ticket-monster_$APP_SERVER:v$BUILD_NUMBER
 
+
 	# appending an entry in the docker-compose.yml file for the current image
         read -d '' COMPOSE_ENTRY <<- EOF
         $APP_SERVER:
@@ -41,10 +42,15 @@ for i in $( ls | grep -e "Dockerfile_*" );
 	  environment:
 	   - AGENT_NAME=$APP_SERVER
 	EOF
-
         echo "$COMPOSE_ENTRY" >> compose/docker-compose.yml
 
-        ((HOST_HTTP_PORT++))
+
+	# create JMeter test for each app-server from Template
+        cp jmeter-tests/http-requests_TEMPLATE.jmx jmeter-tests/http-requests_${APP_SERVER}.jmx
+        sed -i -- "s/portToBeReplaced/${HOST_HTTP_PORT}/g" jmeter-tests/http-requests_${APP_SERVER}.jmx
+        
+
+	((HOST_HTTP_PORT++))
 
 done
 
