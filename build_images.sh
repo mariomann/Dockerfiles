@@ -46,7 +46,7 @@ for i in $( ls | grep -e "Dockerfile_*" );
 
 
 	# create JMeter test for each app-server from Template
-        cp jmeter-tests/http-requests_TEMPLATE.jmx jmeter-tests/http-requests_${APP_SERVER}.jmx
+        cp jmeter-tests/TEMPLATE.jmx jmeter-tests/http-requests_${APP_SERVER}.jmx
         sed -i -- "s/portToBeReplaced/${HOST_HTTP_PORT}/g" jmeter-tests/http-requests_${APP_SERVER}.jmx
         
 
