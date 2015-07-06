@@ -13,7 +13,7 @@ HOST_HTTP_PORT=6780
 # for-loop iterating over all "Dockerfile_<Appserver>" files (e.g. Dockerfile_jboss, Dockerfile_tomcat,...) in the current directory
 # each found app-server specific Dockerfile will be copied to a file called just Dockerfile
 # then a Dockerimage is created for the current Dockerfile and the image is added to a docker-compose.yml file
-for i in $( ls | grep -e "Dockerfile_*" );
+for i in $( ls | grep Dockerfile_ );
     do
 	# get name of current app-server (needed for tagging the Image)
 	APP_SERVER=${i#*_}
@@ -42,7 +42,7 @@ for i in $( ls | grep -e "Dockerfile_*" );
 	  environment:
 	   - AGENT_NAME=$APP_SERVER
 	EOF
-        echo "$COMPOSE_ENTRY" >> compose/docker-compose.yml
+        echo -e "\n$COMPOSE_ENTRY" >> compose/docker-compose.yml
 
 
 	# create JMeter test for each app-server from Template
