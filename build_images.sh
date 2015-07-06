@@ -55,6 +55,7 @@ for i in $( ls | grep Dockerfile_ );
 done
 
 # build JMeter loadtest container
+echo -e "\nBuilding Dockerfile for: JMeter container"
 cp JMeter_Dockerfile Dockerfile
 docker build --tag=sbe/jmeter:v$BUILD_NUMBER .
 
@@ -66,7 +67,7 @@ jmeter:
   volumes:
    - /var/lib/jenkins/workspace/Docker_test-environment_set_up/jmeter-tests/:/jmeter-tests/
 EOF
-echo "$COMPOSE_ENTRY" >> compose/docker-compose.yml
+echo -e "\n$COMPOSE_ENTRY" >> compose/docker-compose.yml
 
 
 # cleanup the created Dockerfile
