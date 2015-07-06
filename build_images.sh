@@ -54,5 +54,23 @@ for i in $( ls | grep -e "Dockerfile_*" );
 
 done
 
+# build JMeter loadtest container
+cp JMeter_Dockerfile Dockerfile
+docker build --tag=sbe/jmeter:v$BUILD_NUMBER .
+
+# appending an entry in the docker-compose.yml file for the JMeter image
+# the above created JMeter tests are passed into this container as a volume
+read -d '' COMPOSE_ENTRY <<- EOF
+jmeter:
+  image: sbe/jmeter:v$BUILD_NUMBER
+  volumes:
+   - /var/lib/jenkins/workspace/Docker_test-environment_set_up/jmeter-tests/:/jmeter-tests/
+EOF
+echo "$COMPOSE_ENTRY" >> compose/docker-compose.yml
+
+
 # cleanup the created Dockerfile
 rm Dockerfile
+
+
+

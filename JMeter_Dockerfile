@@ -1,0 +1,5 @@
+FROM sbe/jmeter:initial
+
+VOLUME /jmeter-tests
+
+CMD ["/run.sh"]
