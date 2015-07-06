@@ -1,5 +1,4 @@
-#FROM sbe/jmeter:initial
-FROM sbe/jmeter:dirs_deleted
+FROM sbe/jmeter:initial
 
 VOLUME /jmeter-tests
 
