@@ -28,17 +28,17 @@ for i in $( ls | grep Dockerfile_ );
         cp $i Dockerfile
 	
         # build Docker-image
-	echo Executing Command: docker build --tag=sbe/ticket-monster_$APP_SERVER:v$BUILD_NUMBER .
-	docker build --tag=sbe/ticket-monster_$APP_SERVER:v$BUILD_NUMBER .
+	echo Executing Command: docker build --tag=myinspectit/hello2_$APP_SERVER:v$BUILD_NUMBER .
+	docker build --tag=myinspectit/hello2_$APP_SERVER:v$BUILD_NUMBER .
 	# start Docker-container for current image
-	#echo Executing Command: docker run -d -P --name ticket-monster_$APP_SERVER\_v$BUILD_NUMBER sbe/ticket-monster_$APP_SERVER:v$BUILD_NUMBER
-	#docker run -d -P --name ticket-monster_$APP_SERVER\_v$BUILD_NUMBER sbe/ticket-monster_$APP_SERVER:v$BUILD_NUMBER
+	#echo Executing Command: docker run -d -P --name hello2_$APP_SERVER\_v$BUILD_NUMBER myinspectit/hello2_$APP_SERVER:v$BUILD_NUMBER
+	#docker run -d -P --name hello2_$APP_SERVER\_v$BUILD_NUMBER myinspectit/hello2_$APP_SERVER:v$BUILD_NUMBER
 
 
 	# appending an entry in the docker-compose.yml file for the current image
         read -d '' COMPOSE_ENTRY <<- EOF
         $APP_SERVER:
-	  image: sbe/ticket-monster_$APP_SERVER:v$BUILD_NUMBER
+	  image: myinspectit/hello2_$APP_SERVER:v$BUILD_NUMBER
 	  links:
 	   - cmr
 	  ports:
@@ -59,19 +59,19 @@ for i in $( ls | grep Dockerfile_ );
 done
 
 # build JMeter loadtest container
-echo -e "\nBuilding Dockerfile for: JMeter container"
-cp JMeter_Dockerfile Dockerfile
-docker build --tag=sbe/jmeter:v$BUILD_NUMBER .
+#echo -e "\nBuilding Dockerfile for: JMeter container"
+#cp JMeter_Dockerfile Dockerfile
+#docker build --tag=sbe/jmeter:v$BUILD_NUMBER .
 
 # appending an entry in the docker-compose.yml file for the JMeter image
 # the above created JMeter tests are passed into this container as a volume
-read -d '' COMPOSE_ENTRY <<- EOF
-jmeter:
-  image: sbe/jmeter:v$BUILD_NUMBER
-  volumes:
-   - /var/lib/jenkins/workspace/Docker_test-environment_set_up/jmeter-tests/:/jmeter-tests/
-EOF
-echo -e "\n$COMPOSE_ENTRY\n${JMETER_CONTAINER_LINKS}" >> compose/docker-compose.yml
+#read -d '' COMPOSE_ENTRY <<- EOF
+#jmeter:
+#  image: sbe/jmeter:v$BUILD_NUMBER
+#  volumes:
+#   - /var/lib/jenkins/workspace/${JOB_NAME}/jmeter-tests/:/jmeter-tests/
+#EOF
+#echo -e "\n$COMPOSE_ENTRY\n${JMETER_CONTAINER_LINKS}" >> compose/docker-compose.yml
 
 
 # cleanup the created Dockerfile
