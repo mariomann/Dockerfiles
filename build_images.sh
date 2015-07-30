@@ -8,8 +8,28 @@
 cp compose/compose-base.yml compose/docker-compose.yml
 
 # Hostport which will be mapped to the port 8080 inside the created containers (incremented in loop)
+CMR_DIR="inspectIT/cmr/"
 HOST_HTTP_PORT=6780
 JMETER_CONTAINER_LINKS="  links:"
+
+
+# build inspectIT CMR container
+cd ${CMR_DIR}
+echo -e "\nBuilding inspectIT CMR container"
+docker build --tag=myinspectit/cmr:v$BUILD_NUMBER .
+# ggf anpassen in cd $WORKSPACE (Jenkins Variable), Besser noch die cds kommplett weglassen un den docker build mit inspectIT/cmr/... durchführen wenn möglich
+cd ../..
+
+# appending an entry in the docker-compose.yml file for the CMR image
+read -d '' COMPOSE_ENTRY <<- EOF
+cmr:
+  image: myinspectit/cmr:v${BUILD_NUMBER}
+  ports:
+   - "8182:8182"
+EOF
+echo -e "\n$COMPOSE_ENTRY" >> compose/docker-compose.yml
+
+
 
 # for-loop iterating over all "Dockerfile_<Appserver>" files (e.g. Dockerfile_jboss, Dockerfile_tomcat,...) in the current directory
 # each found app-server specific Dockerfile will be copied to a file called just Dockerfile
@@ -61,13 +81,13 @@ done
 # build JMeter loadtest container
 #echo -e "\nBuilding Dockerfile for: JMeter container"
 #cp JMeter_Dockerfile Dockerfile
-#docker build --tag=sbe/jmeter:v$BUILD_NUMBER .
+#docker build --tag=myinspectit/jmeter:v$BUILD_NUMBER .
 
 # appending an entry in the docker-compose.yml file for the JMeter image
 # the above created JMeter tests are passed into this container as a volume
 #read -d '' COMPOSE_ENTRY <<- EOF
 #jmeter:
-#  image: sbe/jmeter:v$BUILD_NUMBER
+#  image: myinspectit/jmeter:v$BUILD_NUMBER
 #  volumes:
 #   - /var/lib/jenkins/workspace/${JOB_NAME}/jmeter-tests/:/jmeter-tests/
 #EOF
