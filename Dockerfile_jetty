@@ -1,0 +1,30 @@
+FROM jetty:latest
+
+#set Workdir
+WORKDIR /opt
+
+# ENV INSPECTIT_VERSION 1.6.2.65
+ENV INSPECTIT_AGENT_HOME /opt/agent
+ENV INSPECTIT_CONFIG_HOME /opt/agent/active-config
+ENV JAVA_OPTIONS -Xbootclasspath/p:${INSPECTIT_AGENT_HOME}/inspectit-agent.jar -javaagent:${INSPECTIT_AGENT_HOME}/inspectit-agent.jar -Dinspectit.config=${INSPECTIT_CONFIG_HOME}
+
+# RUN wget ftp://ftp.novatec-gmbh.de/inspectit/releases/RELEASE.${INSPECTIT_VERSION}/inspectit-agent-sun1.5.zip -q \
+#	&& unzip inspectit-agent-sun1.5.zip -d /opt \
+#	&& rm -f inspectit-agent-sun1.5.zip
+
+
+
+# Add Sample App to hot deployment directory
+ADD hello2.war /var/lib/jetty/webapps/
+
+# Pfad zum Agenten ggf. noch anpassen 
+ADD inspectIT/inspectit-agent-sun1.5.zip /opt/
+
+RUN unzip inspectit-agent-sun1.5.zip \
+&& rm -f inspectit-agent-sun1.5.zip 
+
+COPY run-jetty-with-inspectit.sh /run-jetty-with-inspectit.sh
+VOLUME /opt/agent/active-config
+
+CMD /run-jetty-with-inspectit.sh
+
