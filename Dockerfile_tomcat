@@ -25,8 +25,8 @@ RUN unzip inspectit-agent-sun1.5.zip \
 && sed -i '251i\'"export JAVA_OPTS=\"\${INSPECTIT_JAVA_OPTS} \${JAVA_OPTS}\"" /usr/local/tomcat/bin/catalina.sh
 
 #copy start script
-COPY run-with-inspectit.sh /run-with-inspectit.sh
+COPY runscripts/run-tomcat-with-inspectit.sh /run-tomcat-with-inspectit.sh
 #define VOLUME for active agent config
 VOLUME ["/opt/agent/active-config"]
 # define default command
-CMD ["/run-with-inspectit.sh", "run"]
+CMD ["/run-tomcat-with-inspectit.sh", "run"]
