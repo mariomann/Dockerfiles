@@ -5,20 +5,18 @@
 # The test-environment will be set up completly from scratch every time a new Dockerfile is added to the Git Repo
 
 # create fresh docker-compose.yml file, containing just the inspectIT cmr
-cp compose/compose-base.yml compose/docker-compose.yml
+#cp compose/compose-base.yml compose/docker-compose.yml
 
 # Hostport which will be mapped to the port 8080 inside the created containers (incremented in loop)
-CMR_DIR="inspectIT/cmr/"
 HOST_HTTP_PORT=6780
 JMETER_CONTAINER_LINKS="  links:"
 
-
 # build inspectIT CMR container
-cd ${CMR_DIR}
+cd inspectIT/cmr/
 echo -e "\nBuilding inspectIT CMR container"
 docker build --tag=myinspectit/cmr:v$BUILD_NUMBER .
 # ggf anpassen in cd $WORKSPACE (Jenkins Variable), Besser noch die cds kommplett weglassen un den docker build mit inspectIT/cmr/... durchführen wenn möglich
-cd ../..
+cd ${WORKSPACE}
 
 # appending an entry in the docker-compose.yml file for the CMR image
 read -d '' COMPOSE_ENTRY <<- EOF
@@ -31,14 +29,14 @@ echo -e "\n$COMPOSE_ENTRY" >> compose/docker-compose.yml
 
 
 
-# for-loop iterating over all "Dockerfile_<Appserver>" files (e.g. Dockerfile_jboss, Dockerfile_tomcat,...) in the current directory
+# for-loop iterating over all "Dockerfile_<Appserver>" files (e.g. Dockerfile_jboss, Dockerfile_tomcat,...) in the Jenkins workspace
 # each found app-server specific Dockerfile will be copied to a file called just Dockerfile
 # then a Dockerimage is created for the current Dockerfile and the image is added to a docker-compose.yml file
 for i in $( ls | grep Dockerfile_ );
     do
 	# get name of current app-server (needed for tagging the Image)
 	APP_SERVER=${i#*_}
-	echo -e "\nBuilding Dockerfile for: $APP_SERVER"
+	echo -e "\nBuilding $APP_SERVER container with integrated inspectIT Agent"
 
 	# append current app-server to the links-section of jmeter container (docker-compose.yml skript)
 	JMETER_CONTAINER_LINKS="${JMETER_CONTAINER_LINKS}\n   - ${APP_SERVER}"
@@ -80,20 +78,20 @@ for i in $( ls | grep Dockerfile_ );
 
 done
 
-# build JMeter loadtest container
-#echo -e "\nBuilding Dockerfile for: JMeter container"
-#cp JMeter_Dockerfile Dockerfile
-#docker build --tag=myinspectit/jmeter:v$BUILD_NUMBER .
+# build JMeter container
+echo -e "\nBuilding JMeter container"
+cp JMeter_Dockerfile Dockerfile
+docker build --tag=myinspectit/jmeter:v$BUILD_NUMBER .
 
 # appending an entry in the docker-compose.yml file for the JMeter image
 # the above created JMeter tests are passed into this container as a volume
-#read -d '' COMPOSE_ENTRY <<- EOF
-#jmeter:
-#  image: myinspectit/jmeter:v$BUILD_NUMBER
-#  volumes:
-#   - /var/lib/jenkins/workspace/${JOB_NAME}/jmeter-tests/:/jmeter-tests/
-#EOF
-#echo -e "\n$COMPOSE_ENTRY\n${JMETER_CONTAINER_LINKS}" >> compose/docker-compose.yml
+read -d '' COMPOSE_ENTRY <<- EOF
+jmeter:
+  image: myinspectit/jmeter:v$BUILD_NUMBER
+  volumes:
+   - /var/lib/jenkins/workspace/${JOB_NAME}/jmeter-tests/:/jmeter-tests/
+EOF
+echo -e "\n$COMPOSE_ENTRY\n${JMETER_CONTAINER_LINKS}" >> compose/docker-compose.yml
 
 
 # cleanup the created Dockerfile
