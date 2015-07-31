@@ -27,6 +27,7 @@ RUN unzip inspectit-agent-sun1.5.zip \
 #copy start script
 COPY runscripts/run-tomcat-with-inspectit.sh /run-tomcat-with-inspectit.sh
 #define VOLUME for active agent config
-VOLUME ["/opt/agent/active-config"]
+#VOLUME ["/opt/agent/active-config"]
+COPY ${WORKSPACE}/inspectIT/agent/config /opt/agent/active-config
 # define default command
 CMD ["/run-tomcat-with-inspectit.sh", "run"]

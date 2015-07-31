@@ -24,7 +24,8 @@ RUN unzip inspectit-agent-sun1.5.zip \
 && rm -f inspectit-agent-sun1.5.zip 
 
 COPY runscripts/run-jetty-with-inspectit.sh /run-jetty-with-inspectit.sh
-VOLUME /opt/agent/active-config
+#VOLUME /opt/agent/active-config
+COPY ${WORKSPACE}/inspectIT/agent/config /opt/agent/active-config
 
 CMD /run-jetty-with-inspectit.sh
 

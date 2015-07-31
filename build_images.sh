@@ -63,8 +63,6 @@ for i in $( ls | grep Dockerfile_ );
 	   - \"$HOST_HTTP_PORT:8080\"
 	  environment:
 	   - AGENT_NAME=$APP_SERVER
-	  volumes:
-	   - ${WORKSPACE}/inspectIT/agent/config:/opt/agent/active-config
 	EOF
         echo -e "\n$COMPOSE_ENTRY" >> compose/docker-compose.yml
 
