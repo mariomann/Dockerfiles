@@ -4,7 +4,7 @@ CMR_ADDR=${INSPECTIT_CMR_ADDR:-cmr}
 CMR_PORT=${INSPECTIT_CMR_PORT:-9070}
 
 #AGENT_NAME=${AGENT_NAME:-$HOSTNAME}
-AGENT_NAME=jetty
+AGENT_NAME=jetty_test
 sed -i "s/^\(repository\) .*/\1 $CMR_ADDR $CMR_PORT $AGENT_NAME/" $INSPECTIT_CONFIG_HOME/inspectit-agent.cfg
 echo "Done. Remember to modify the configuration for your needs. You find the configuration in the mapped volume $INSPECTIT_CONFIG_HOME." 
 
