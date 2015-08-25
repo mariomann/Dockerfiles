@@ -15,8 +15,8 @@ ENV INSPECTIT_CONFIG_HOME /opt/agent/active-config
 # Add Sample App to hot deployment directory
 ADD hello2.war /usr/local/tomcat/webapps/
 
-# Pfad zum Agenten ggf. noch anpassen 
-ADD inspectIT/inspectit-agent-sun1.5.zip /opt/
+# adding fresh agent from jenkins workspace
+ADD ${WORKSPACE}/inspectIT/agent/inspectit-agent-sun1.5.zip /opt/
  
 # unzip Agent and set inspectit jvm options
 RUN unzip inspectit-agent-sun1.5.zip \

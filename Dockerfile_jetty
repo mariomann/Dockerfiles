@@ -17,14 +17,16 @@ ENV JAVA_OPTIONS -Xbootclasspath/p:${INSPECTIT_AGENT_HOME}/inspectit-agent.jar -
 # Add Sample App to hot deployment directory
 ADD hello2.war /var/lib/jetty/webapps/
 
-# Pfad zum Agenten ggf. noch anpassen 
-ADD inspectIT/inspectit-agent-sun1.5.zip /opt/
+# adding fresh agent from jenkins workspace
+ADD ${WORKSPACE}/inspectIT/agent/inspectit-agent-sun1.5.zip /opt/
 
 RUN unzip inspectit-agent-sun1.5.zip \
 && rm -f inspectit-agent-sun1.5.zip 
 
 COPY runscripts/run-jetty-with-inspectit.sh /run-jetty-with-inspectit.sh
+
 #VOLUME /opt/agent/active-config
+
 COPY ${WORKSPACE}/inspectIT/agent/config /opt/agent/active-config
 
 CMD /run-jetty-with-inspectit.sh
