@@ -68,9 +68,14 @@ for i in $( ls | grep Dockerfile_ );
 
 
 	# create JMeter test for each app-server from Template
-        cp jmeter-tests/TEMPLATE.jmx jmeter-tests/http-requests_${APP_SERVER}.jmx
+        cp jmeter-tests/TEMPLATE_http.jmx jmeter-tests/http-requests_${APP_SERVER}.jmx
         sed -i -- "s/containerHostname/${APP_SERVER}/g" jmeter-tests/http-requests_${APP_SERVER}.jmx
         
+        cp jmeter-tests/TEMPLATE_rest.jmx jmeter-tests/restcall_${APP_SERVER}.jmx
+        # TODO: Implementieren eines RESTservices, der mit dem APP_SERVER Namen angefragt werden kann und nur den Status für diesen Server zurückliefert
+	# z.b. über die url: .../rest/agent/$APP_SERVER
+	# In dem restcall_${APP_SERVER}.jmx File muss dann noch der Name des App Servers in der Url dynamisch eingesetzt werden:
+	#sed -i -- "s/app_server/${APP_SERVER}/g" jmeter-tests/restcall_${APP_SERVER}.jmx
 
 	((HOST_HTTP_PORT++))
 
