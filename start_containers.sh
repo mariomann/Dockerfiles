@@ -21,8 +21,8 @@ do
 	echo -e "\n\nStarting ${APP_SERVER}-Container"
 	docker run -d --name ${APP_SERVER}_sc -p ${HOST_HTTP_PORT}:8080 --link cmr_sc:cmr ${IMAGE}:${IMAGE_VERSION}
 
-	echo -e "\nWaiting 60 Seconds for ${APP_SERVER}-Container to start before launching JMeter Tests"
-	sleep 60
+	echo -e "\nWaiting 30 Seconds for ${APP_SERVER}-Container to start before launching JMeter Tests"
+	sleep 30
 
 	echo -e "\nStarting JMeter Container to execute Tests"
 	docker run --rm --name jmeter_sc -v ${WORKSPACE}/jmeter-tests/:/jmeter-tests/ --link ${APP_SERVER}_sc:${APP_SERVER} --link cmr_sc:cmr -e "APP_SERVER=${APP_SERVER}" sbe/jmeter:run-test-instantly
