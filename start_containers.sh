@@ -13,7 +13,7 @@ docker run -d -p 8182:8182 --name cmr_sc myinspectit/cmr:${IMAGE_VERSION}
 
 # LOOP
 # start App Server Containers and run tests
-for IMAGE in $(docker images | grep myinspectit/hello2.*v22 | awk '{print $1}');
+for IMAGE in $(docker images | grep myinspectit/hello2.*${IMAGE_VERSION} | awk '{print $1}');
 # sample output: myinspectit/hello2_jetty
 do
 	APP_SERVER=${IMAGE#*_}
