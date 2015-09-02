@@ -4,9 +4,6 @@
 # This script builds Docker Images for the inspectIT CMR and several App-Servers including the inspectIT Agent
 # Furthermore JMeter-tests are created from TEMPLATES
 
-# Hostport which will be mapped to the port 8080 inside the created containers (incremented in loop)
-HOST_HTTP_PORT=6780
-
 # build inspectIT CMR container
 echo -e "\nBuilding Docker Image for inspectIT CMR"
 docker build --tag=myinspectit/cmr:v$BUILD_NUMBER inspectIT/cmr/
@@ -35,9 +32,6 @@ for i in $( ls | grep Dockerfile_ );
 	# create JMeter REST-test for each app-server from Template
         cp jmeter-tests/TEMPLATE_rest.jmx jmeter-tests/restcall_${APP_SERVER}.jmx
 	sed -i -- "s/APP_SERVER/${APP_SERVER}/g" jmeter-tests/restcall_${APP_SERVER}.jmx
-
-	((HOST_HTTP_PORT++))
-
 done
 
 # cleanup the created Dockerfile
