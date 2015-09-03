@@ -25,6 +25,9 @@ for i in $( ls | grep Dockerfile_ );
 	echo Executing Command: docker build --tag=myinspectit/hello2_$APP_SERVER:v$BUILD_NUMBER .
 	docker build --tag=myinspectit/hello2_$APP_SERVER:v$BUILD_NUMBER .
 
+	# cleanup the created Dockerfile
+	rm Dockerfile
+
 	# create JMeter http-test for each app-server from Template
         cp jmeter-tests/TEMPLATE_http.jmx jmeter-tests/http-requests_${APP_SERVER}.jmx
         sed -i -- "s/containerHostname/${APP_SERVER}/g" jmeter-tests/http-requests_${APP_SERVER}.jmx
@@ -34,8 +37,6 @@ for i in $( ls | grep Dockerfile_ );
 	sed -i -- "s/APP_SERVER/${APP_SERVER}/g" jmeter-tests/restcall_${APP_SERVER}.jmx
 done
 
-# cleanup the created Dockerfile
-rm Dockerfile
 
 
 
