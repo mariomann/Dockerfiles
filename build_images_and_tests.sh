@@ -34,7 +34,7 @@ for i in $( ls | grep Dockerfile_ );
         
 	# create JMeter REST-test for each app-server from Template
         cp jmeter-tests/TEMPLATE_rest.jmx jmeter-tests/restcall_${APP_SERVER}.jmx
-	sed -i -- "s/APP_SERVER/${APP_SERVER}/g" jmeter-tests/restcall_${APP_SERVER}.jmx
+	sed -i -- "s/insertAppServerNameHere/${APP_SERVER}/g" jmeter-tests/restcall_${APP_SERVER}.jmx
 done
 
 
