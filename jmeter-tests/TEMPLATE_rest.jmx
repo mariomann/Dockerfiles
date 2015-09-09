@@ -84,9 +84,11 @@
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="TestPlan.comments">Asserts to find the String &quot;${AGENT_NAME}&quot;:&quot;CONNECTED in the JSON Output of the queried REST-Service</stringProp>
           </ResponseAssertion>
           <hashTree/>
           <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="Assertion millisSinceLastData lower than 5000" enabled="true">
+            <stringProp name="TestPlan.comments">Asserts the time since the CMR received data from the Agent to be lower than 5000 ms</stringProp>
             <stringProp name="BeanShellAssertion.query">String millis = vars.get(&quot;MILLIS&quot;);
 
 if (Integer.parseInt(millis) &lt; 5000){
@@ -130,7 +132,7 @@ if (Integer.parseInt(millis) &lt; 5000){
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assertion Usernames in Response" enabled="true">
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assertion HTTP parameter &quot;username&quot;" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="2025954020">&quot;parameters&quot;:\{&quot;username&quot;:\[&quot;Simon&quot;\]\}</stringProp>
               <stringProp name="-594076246">&quot;parameters&quot;:\{&quot;username&quot;:\[&quot;Franny&quot;\]\}</stringProp>
@@ -139,6 +141,7 @@ if (Integer.parseInt(millis) &lt; 5000){
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="TestPlan.comments">Asserts to find the username-value pairs of the HTTP GET requests in the output of the invocation sequences for a given platformId</stringProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
