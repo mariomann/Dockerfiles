@@ -136,7 +136,7 @@ if (Integer.parseInt(millis) &lt; 5000){
             <collectionProp name="Asserion.test_strings">
               <stringProp name="2025954020">&quot;parameters&quot;:\{&quot;username&quot;:\[&quot;Simon&quot;\]\}</stringProp>
               <stringProp name="-594076246">&quot;parameters&quot;:\{&quot;username&quot;:\[&quot;Franny&quot;\]\}</stringProp>
-              <stringProp name="-991731817">&quot;parameters&quot;:\{&quot;username&quot;:\[&quot;Fritzi&quot;\]\}</stringProp>
+              <stringProp name="-991731817">&quot;parameters&quot;:\{&quot;username&quot;:\[&quot;Fritz&quot;\]\}</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
