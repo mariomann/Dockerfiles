@@ -1,16 +1,13 @@
 FROM tomcat
 MAINTAINER info.inspectit@novatec-gmbh.de
 
-#set Workdir
+# set Workdir
 WORKDIR /opt
 
-#set insepctit env
-#ENV INSPECTIT_VERSION 1.6.2.65
+# set insepctit env
 ENV INSPECTIT_AGENT_HOME /opt/agent
 ENV INSPECTIT_CONFIG_HOME /opt/agent/active-config
 
-# get inspectit binary
-#RUN wget ftp://ftp.novatec-gmbh.de/inspectit/releases/RELEASE.${INSPECTIT_VERSION}/inspectit-agent-sun1.5.zip \
 
 # Add Sample App to hot deployment directory
 ADD hello2.war /usr/local/tomcat/webapps/
@@ -18,16 +15,16 @@ ADD hello2.war /usr/local/tomcat/webapps/
 # adding fresh agent from jenkins workspace
 ADD ${WORKSPACE}/inspectIT/agent/inspectit-agent-sun1.5.zip /opt/
  
-# unzip Agent and set inspectit jvm options
+# unzip Agent, clean up .zip-file and set inspectit jvm options
 RUN unzip inspectit-agent-sun1.5.zip \
 && rm -f inspectit-agent-sun1.5.zip \
 && sed -i '250i\'"export INSPECTIT_JAVA_OPTS=\"-Xbootclasspath/p:${INSPECTIT_AGENT_HOME}/inspectit-agent.jar -javaagent:${INSPECTIT_AGENT_HOME}/inspectit-agent.jar -Dinspectit.config=${INSPECTIT_CONFIG_HOME}\"" /usr/local/tomcat/bin/catalina.sh \
 && sed -i '251i\'"export JAVA_OPTS=\"\${INSPECTIT_JAVA_OPTS} \${JAVA_OPTS}\"" /usr/local/tomcat/bin/catalina.sh
 
-#copy start script
+# copy start script and agent config
 COPY runscripts/run-tomcat-with-inspectit.sh /run-tomcat-with-inspectit.sh
-#define VOLUME for active agent config
-#VOLUME ["/opt/agent/active-config"]
 COPY ${WORKSPACE}/inspectIT/agent/config /opt/agent/active-config
-# define default command
+
+
+# define default command for container startup
 CMD ["/run-tomcat-with-inspectit.sh", "run"]

@@ -1,17 +1,14 @@
 FROM jetty:latest
+MAINTAINER info.inspectit@novatec-gmbh.de
 
-#set Workdir
+# set Workdir
 WORKDIR /opt
 
-# ENV INSPECTIT_VERSION 1.6.2.65
+# set insepctit env 
 ENV INSPECTIT_AGENT_HOME /opt/agent
 ENV INSPECTIT_CONFIG_HOME /opt/agent/active-config
+# inspectit jvm options. Jetty automatically appends the content of the variable JAVA_OPTIONS at startup of the jvm
 ENV JAVA_OPTIONS -Xbootclasspath/p:${INSPECTIT_AGENT_HOME}/inspectit-agent.jar -javaagent:${INSPECTIT_AGENT_HOME}/inspectit-agent.jar -Dinspectit.config=${INSPECTIT_CONFIG_HOME}
-
-# RUN wget ftp://ftp.novatec-gmbh.de/inspectit/releases/RELEASE.${INSPECTIT_VERSION}/inspectit-agent-sun1.5.zip -q \
-#	&& unzip inspectit-agent-sun1.5.zip -d /opt \
-#	&& rm -f inspectit-agent-sun1.5.zip
-
 
 
 # Add Sample App to hot deployment directory
@@ -20,14 +17,15 @@ ADD hello2.war /var/lib/jetty/webapps/
 # adding fresh agent from jenkins workspace
 ADD ${WORKSPACE}/inspectIT/agent/inspectit-agent-sun1.5.zip /opt/
 
+# unzip agent and clean up .zip-file
 RUN unzip inspectit-agent-sun1.5.zip \
 && rm -f inspectit-agent-sun1.5.zip 
 
+# copy start script and agent config
 COPY runscripts/run-jetty-with-inspectit.sh /run-jetty-with-inspectit.sh
-
-#VOLUME /opt/agent/active-config
-
 COPY ${WORKSPACE}/inspectIT/agent/config /opt/agent/active-config
 
+
+# define default command for container startup
 CMD /run-jetty-with-inspectit.sh
 
