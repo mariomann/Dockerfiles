@@ -25,7 +25,7 @@ do
 	sleep 45
 
 	echo -e "\nStarting JMeter Container to execute Tests: docker run --rm --name jmeter_jenkins_build -v ${WORKSPACE}/jmeter-tests/:/jmeter-tests/ --link ${APP_SERVER}_jenkins_build:${APP_SERVER} --link cmr_jenkins_build:cmr -e "APP_SERVER=${APP_SERVER}" hauptmedia/jmeter bin/jmeter -n -t /jmeter-tests/"
-	docker run --rm --name jmeter_jenkins_build -v ${WORKSPACE}/jmeter-tests/:/jmeter-tests/ --link ${APP_SERVER}_jenkins_build:${APP_SERVER} --link cmr_jenkins_build:cmr -e "APP_SERVER=${APP_SERVER}" hauptmedia/jmeter bin/jmeter -n -t /jmeter-tests/
+	docker run --rm --name jmeter_jenkins_build -v ${WORKSPACE}/jmeter-tests/:/jmeter-tests/ --link ${APP_SERVER}_jenkins_build:${APP_SERVER} --link cmr_jenkins_build:cmr -e "APP_SERVER=${APP_SERVER}" hauptmedia/jmeter bin/jmeter -n -t /jmeter-tests/http-requests_${APP_SERVER}.jmx
 	echo -e "Tests executed"
 	echo -e "\nStopping ${APP_SERVER}-Container"
 	docker stop ${APP_SERVER}_jenkins_build
@@ -38,5 +38,5 @@ done
 # stop and remove cmr container
 echo -e "\nStopping CMR-Container"
 docker stop cmr_jenkins_build
-# echo -e "Removing CMR-Container"
-# docker rm cmr_jenkins_build
+echo -e "Removing CMR-Container"
+docker rm cmr_jenkins_build
