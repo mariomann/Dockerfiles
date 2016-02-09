@@ -29,8 +29,8 @@ do
 	echo -e "Tests executed"
 	echo -e "\nStopping ${APP_SERVER}-Container"
 	docker stop ${APP_SERVER}_jenkins_build
-	echo -e "Removing ${APP_SERVER}-Container"
-	docker rm ${APP_SERVER}_jenkins_build
+	#echo -e "Removing ${APP_SERVER}-Container"
+	#docker rm ${APP_SERVER}_jenkins_build
 
 	((HOST_HTTP_PORT++))
 done
@@ -38,5 +38,5 @@ done
 # stop and remove cmr container
 echo -e "\nStopping CMR-Container"
 docker stop cmr_jenkins_build
-echo -e "Removing CMR-Container"
-docker rm cmr_jenkins_build
+#echo -e "Removing CMR-Container"
+#docker rm cmr_jenkins_build
