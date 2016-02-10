@@ -1,12 +1,13 @@
 #!/bin/bash
 
+DOCKER_ID=inspectit-dev
 
 # This script builds Docker Images for the inspectIT CMR and several App-Servers including the inspectIT Agent
 # Furthermore JMeter-tests are created from TEMPLATES
 
 # build inspectIT CMR container
 echo -e "\nBuilding Docker Image for inspectIT CMR"
-docker build --tag=myinspectit/cmr:v$BUILD_NUMBER inspectIT/cmr/
+docker build --tag=${DOCKER_ID}/cmr:v$BUILD_NUMBER inspectIT/cmr/
 
 # for-loop iterating over all "Dockerfile_<Appserver>" files (e.g. Dockerfile_jboss, Dockerfile_tomcat,...) in the Jenkins workspace
 # each found app-server specific Dockerfile will be copied to a file called just Dockerfile
@@ -22,8 +23,8 @@ for i in $( ls | grep Dockerfile_ );
         cp $i Dockerfile
 	
         # build Docker-image
-	echo Executing Command: docker build --tag=myinspectit/hello2_$APP_SERVER:v$BUILD_NUMBER .
-	docker build --tag=myinspectit/hello2_$APP_SERVER:v$BUILD_NUMBER .
+	echo Executing Command: docker build --tag=${DOCKER_ID}/hello2_$APP_SERVER:v$BUILD_NUMBER .
+	docker build --tag=${DOCKER_ID}/hello2_$APP_SERVER:v$BUILD_NUMBER .
 
 	# cleanup the created Dockerfile
 	rm Dockerfile
@@ -36,7 +37,3 @@ for i in $( ls | grep Dockerfile_ );
         cp jmeter-tests/TEMPLATE_rest.jmx jmeter-tests/restcall_${APP_SERVER}.jmx
 	sed -i -- "s/insertAppServerNameHere/${APP_SERVER}/g" jmeter-tests/restcall_${APP_SERVER}.jmx
 done
-
-
-
-
