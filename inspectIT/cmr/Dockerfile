@@ -4,6 +4,10 @@ MAINTAINER info.inspectit@novatec-gmbh.de
 # adding fresh CMR version from Jenkins build
 ADD inspectit-cmr.linux.x64.tar.gz /
 
+RUN gunzip inspectit-cmr.linux.x64.tar.gz \
+ && tar xfv inspectit-cmr.linux.x64.tar \
+ && rm -f inspectit-cmr.linux.x64.tar.gz
+
 WORKDIR /CMR
 
 # exposing ports for REST-service and Agent connections
