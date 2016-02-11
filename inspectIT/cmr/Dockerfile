@@ -2,7 +2,7 @@ FROM progrium/busybox
 MAINTAINER info.inspectit@novatec-gmbh.de
 
 # adding fresh CMR version from Jenkins build
-ADD inspectit-cmr.linux.x64.tar.gz /
+COPY inspectit-cmr.linux.x64.tar.gz /
 
 RUN gunzip inspectit-cmr.linux.x64.tar.gz \
  && tar xfv inspectit-cmr.linux.x64.tar \
