@@ -8,8 +8,8 @@ DOCKER_ID=inspectit-dev
 echo -e "\ngesetzte Variablen:\n BUILD_NUMBER: ${BUILD_NUMBER}\n IMAGE_VERSION: ${IMAGE_VERSION}\n WORKSPACE: ${WORKSPACE}\n "
 
 # start cmr container
-echo -e "\nStarting CMR-Container"
-docker run -d -p 8182:8182 --name cmr_jenkins_build ${DOCKER_ID}/cmr:${IMAGE_VERSION}
+#echo -e "\nStarting CMR-Container"
+#docker run -d -p 8182:8182 --name cmr_jenkins_build ${DOCKER_ID}/cmr:${IMAGE_VERSION}
 
 # LOOP
 # start App Server Containers and run tests
