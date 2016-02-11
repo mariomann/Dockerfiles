@@ -11,6 +11,8 @@ echo -e "\ngesetzte Variablen:\n BUILD_NUMBER: ${BUILD_NUMBER}\n IMAGE_VERSION: 
 echo -e "\nStarting CMR-Container"
 docker run -d -p 8182:8182 --name cmr_jenkins_build ${DOCKER_ID}/cmr:${IMAGE_VERSION}
 
+sleep 20
+
 # LOOP
 # start App Server Containers and run tests
 for IMAGE in $(docker images | grep ${DOCKER_ID}/hello2.*${IMAGE_VERSION} | awk '{print $1}');
