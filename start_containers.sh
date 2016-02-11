@@ -8,8 +8,8 @@ DOCKER_ID=inspectit-dev
 echo -e "\ngesetzte Variablen:\n BUILD_NUMBER: ${BUILD_NUMBER}\n IMAGE_VERSION: ${IMAGE_VERSION}\n WORKSPACE: ${WORKSPACE}\n "
 
 # start cmr container
-#echo -e "\nStarting CMR-Container"
-#docker run -d -p 8182:8182 --name cmr_jenkins_build ${DOCKER_ID}/cmr:${IMAGE_VERSION}
+echo -e "\nStarting CMR-Container"
+docker run -d -p 8182:8182 --name cmr_jenkins_build ${DOCKER_ID}/cmr:${IMAGE_VERSION}
 
 # LOOP
 # start App Server Containers and run tests
@@ -24,7 +24,7 @@ do
 	echo -e "\nWaiting 45 Seconds for ${APP_SERVER}-Container to start before launching JMeter Tests"
 	sleep 45
 
-	echo -e "\nStarting JMeter Container to execute Tests: docker run --rm --name jmeter_jenkins_build -v ${WORKSPACE}/jmeter-tests/:/jmeter-tests/ --link ${APP_SERVER}_jenkins_build:${APP_SERVER} --link cmr_jenkins_build:cmr -e "APP_SERVER=${APP_SERVER}" inspectit-dev/jmeter bin/jmeter -n -t /jmeter-tests/"
+	#echo -e "\nStarting JMeter Container to execute Tests: docker run --rm --name jmeter_jenkins_build -v ${WORKSPACE}/jmeter-tests/:/jmeter-tests/ --link ${APP_SERVER}_jenkins_build:${APP_SERVER} --link cmr_jenkins_build:cmr -e "APP_SERVER=${APP_SERVER}" inspectit-dev/jmeter bin/jmeter -n -t /jmeter-tests/"
 	#docker run --rm --name jmeter_jenkins_build -v ${WORKSPACE}/jmeter-tests/:/jmeter-tests/ --link ${APP_SERVER}_jenkins_build:${APP_SERVER} -e "APP_SERVER=${APP_SERVER}" ${DOCKER_ID}/jmeter jmeter -n -t /jmeter-tests/http-requests_${APP_SERVER}.jmx
 	
 	#sleep 1
