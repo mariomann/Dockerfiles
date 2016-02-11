@@ -31,16 +31,16 @@ do
 	
 	docker run --rm --name jmeter_jenkins_build -v ${WORKSPACE}/jmeter-tests/:/jmeter-tests/ --link cmr_jenkins_build:cmr -e "APP_SERVER=${APP_SERVER}" ${DOCKER_ID}/jmeter jmeter -n -t /jmeter-tests/restcall_${APP_SERVER}.jmx -l /jmeter-tests/results/result_restcall_${APP_SERVER}.jtl
 	echo -e "Tests executed"
-	echo -e "\nStopping ${APP_SERVER}-Container"
-	docker stop ${APP_SERVER}_jenkins_build
-	echo -e "Removing ${APP_SERVER}-Container"
-	docker rm ${APP_SERVER}_jenkins_build
+	#echo -e "\nStopping ${APP_SERVER}-Container"
+	#docker stop ${APP_SERVER}_jenkins_build
+	#echo -e "Removing ${APP_SERVER}-Container"
+	#docker rm ${APP_SERVER}_jenkins_build
 
 	((HOST_HTTP_PORT++))
 done
 
 # stop and remove cmr container
-echo -e "\nStopping CMR-Container"
-docker stop cmr_jenkins_build
-echo -e "Removing CMR-Container"
-docker rm cmr_jenkins_build
+#echo -e "\nStopping CMR-Container"
+#docker stop cmr_jenkins_build
+#echo -e "Removing CMR-Container"
+#docker rm cmr_jenkins_build
