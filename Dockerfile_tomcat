@@ -10,11 +10,11 @@ ENV INSPECTIT_CONFIG_HOME /opt/agent/active-config
 
 
 # Add Sample App to hot deployment directory
-ADD hello2.war /usr/local/tomcat/webapps/
+COPY hello2.war /usr/local/tomcat/webapps/
 
 # adding fresh agent from jenkins workspace
-ADD ${WORKSPACE}/inspectIT/agent/inspectit-agent-sun1.5.zip /opt/
- 
+COPY ${WORKSPACE}/inspectIT/agent/inspectit-agent-sun1.5.zip /opt/
+
 # unzip Agent, clean up .zip-file and set inspectit jvm options
 RUN unzip inspectit-agent-sun1.5.zip \
 && rm -f inspectit-agent-sun1.5.zip \
@@ -23,8 +23,6 @@ RUN unzip inspectit-agent-sun1.5.zip \
 
 # copy start script and agent config
 COPY runscripts/run-tomcat-with-inspectit.sh /run-tomcat-with-inspectit.sh
-COPY ${WORKSPACE}/inspectIT/agent/config /opt/agent/active-config
-
 
 # define default command for container startup
 CMD ["/run-tomcat-with-inspectit.sh", "run"]
