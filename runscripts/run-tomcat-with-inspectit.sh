@@ -42,4 +42,8 @@ elif ([ -z $CMR_ENV_INSPECTIT_VERSION ]); then
         fi
 fi
 
+sed -i '$ a\'"sensor timer javaeetutorial.hello2.GreetingServlet *" $INSPECTIT_CONFIG_HOME/inspectit-agent.cfg
+sed -i '$ a\'"sensor timer javaeetutorial.hello2.ResponseServlet *" $INSPECTIT_CONFIG_HOME/inspectit-agent.cfg
+sed -i '$ a\'"sensor isequence javaeetutorial.hello2.* *" $INSPECTIT_CONFIG_HOME/inspectit-agent.cfg
+
 exec catalina.sh "$@"
