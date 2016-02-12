@@ -38,7 +38,7 @@ do
 
 	((HOST_HTTP_PORT++))
 done
-exit 1
+
 # stop and remove cmr container
 #echo -e "\nStopping CMR-Container"
 #docker stop cmr_jenkins_build
